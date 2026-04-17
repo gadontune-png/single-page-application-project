@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /*background-image: url(money1.jpeg);*/
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color:rgb(34, 56, 1); /* Light gray background */
+}
+
+/* Main Container */
+.currency-converter {
+    background: goldenrod;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.cu-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 900;
+    background: #555;
+    border-radius: 8px;
+}
+
+/* Input Section */
+.currency-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    outline: none;
+    color: white;
+    text-align: center;
+    font-weight: 900;
+    background: #555;
+  
+}
+
+.amount {
+    color: black;
+    font-weight: 900;
+    
+    border-radius: 8px;
+
+
+}
+
+/* Flexbox Row for Selectors */
+.currency-converter-select-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.currency-converter-select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.currency-converter-select img {
+    width: 40px;
+    border-radius: 4px;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+/* Swap Button */
+.currency-converter-swap-button {
+    background: none;
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: black;
+    transition: 0.3s;
+}
+
+.bx-bx-swap-horizontal {
+    color: black;
+    background:none;
+}
+
+.currency-converter-swap-button:hover {
+    background: #eee;
+    transform: scale(1.1);
+}
+
+/* Exchange Rate Display */
+.currency-converter-exchange-rate {
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    color: black;
+}
+
+/* Convert Button */
+.currency-converter-convert-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.currency-converter-convert-button:hover {
+    background-color: #0056b3;
+    
+}
+
+/* Accessibility: Hide labels visually but keep for screen readers */
+/*.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}*/
