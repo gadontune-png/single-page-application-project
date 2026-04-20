@@ -8,6 +8,8 @@ const amountInput = document.querySelector("#inputSourceCurrency");
 const resultText = document.querySelector("#exchangeRateText");
 const convertBtn = document.querySelector("#buttonConvert");
 const swapBtn = document.querySelector("#buttonSwap");
+const fromFlag = document.querySelector("#imageSourceCurrency");
+const toFlag = document.querySelector("#imageTargetCurrency");
 
 const API_KEY = "6a387c5620d8533bd4cf6d8c"; // replace with your key
 const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/`;
@@ -43,6 +45,54 @@ async function getExchangeRate() {
         resultText.innerText = "Error fetching exchange rate.";
     }
 }
+
+
+function loadCurrencyOptions() {
+  for (let currency in country_list) {
+    let option1 = document.createElement("option");
+    let option2 = document.createElement("option");
+
+    option1.value = currency;
+    option2.value = currency;
+
+    option1.text = currency;
+    option2.text = currency;
+
+    fromCurrency.appendChild(option1);
+    toCurrency.appendChild(option2);
+  }
+
+  // Default values
+  fromCurrency.value = "USD";
+  toCurrency.value = "KES";
+}
+
+function updateFlag(selectElement, imgElement) {
+  const currency = selectElement.value;
+  const countryCode = country_list[currency];
+
+  imgElement.src = `https://flagcdn.com/w40/${countryCode.toLowerCase()}.png`;
+}
+
+fromCurrency.addEventListener("change", () => {
+  updateFlag(fromCurrency, fromFlag);
+  getExchangeRate();
+});
+
+toCurrency.addEventListener("change", () => {
+  updateFlag(toCurrency, toFlag);
+  getExchangeRate();
+});
+
+window.addEventListener("load", () => {
+  loadCurrencyOptions();
+  updateFlag(fromCurrency, fromFlag);
+  updateFlag(toCurrency, toFlag);
+  getExchangeRate();
+});
+
+
+
 
 // Swap currencies
 function swapCurrencies() {
