@@ -1,6 +1,11 @@
-const country_list = {
-    "AED" : "AE", "AFN" : "AF", "ALL" : "AL", "AMD" : "AM", "ANG" : "AN", "AOA" : "AO", "ARS" : "AR", "AUD" : "AU", "AZN" : "AZ", "BAM" : "BA", "BBD" : "BB", "BDT" : "BD", "BGN" : "BG", "BHD" : "BH", "BIF" : "BI", "BND" : "BN", "BOB" : "BO", "BRL" : "BR", "BSD" : "BS", "BTC" : "BT", "BTN" : "BT", "BWP" : "BW", "BYR" : "BY", "BZD" : "BZ", "CAD" : "CA", "CDF" : "CD", "CHF" : "CH", "CLP" : "CL", "CNY" : "CN", "COP" : "CO", "CRC" : "CR", "CUP" : "CU", "CVE" : "CV", "CZK" : "CZ", "DJF" : "DJ", "DKK" : "DK", "DOP" : "DO", "DZD" : "DZ", "EGP" : "EG", "ETB" : "ET", "EUR" : "FR", "FJD" : "FJ", "FKP" : "FK", "GBP" : "GB", "GEL" : "GE", "GGP" : "GG", "GHS" : "GH", "GIP" : "GI", "GMD" : "GM", "GNF" : "GN", "GTQ" : "GT", "GYD" : "GY", "HKD" : "HK", "HNL" : "HN", "HRK" : "HR", "HTG" : "HT", "HUF" : "HU", "IDR" : "ID", "ILS" : "IL", "INR" : "IN", "IQD" : "IQ", "IRR" : "IR", "ISK" : "IS", "JMD" : "JM", "JOD" : "JO", "JPY" : "JP", "KES" : "KE", "KGS" : "KG", "KHR" : "KH", "KMF" : "KM", "KPW" : "KP", "KRW" : "KR", "KWD" : "KW", "KYD" : "KY", "KZT" : "KZ", "LAK" : "LA", "LBP" : "LB", "LKR" : "LK", "LRD" : "LR", "LSL" : "LS", "LTL" : "LT", "LVL" : "LV", "LYD" : "LY", "MAD" : "MA", "MDL" : "MD", "MGA" : "MG", "MKD" : "MK", "MMK" : "MM", "MNT" : "MN", "MOP" : "MO", "MRO" : "MR", "MUR" : "MU", "MVR" : "MV", "MWK" : "MW", "MXN" : "MX", "MYR" : "MY", "MZN" : "MZ", "NAD" : "NA", "NGN" : "NG", "NIO" : "NI", "NOK" : "NO", "NPR" : "NP", "NZD" : "NZ", "OMR" : "OM", "PAB" : "PA", "PEN" : "PE", "PGK" : "PG", "PHP" : "PH", "PKR" : "PK", "PLN" : "PL", "PYG" : "PY", "QAR" : "QA", "RON" : "RO", "RSD" : "RS", "RUB" : "RU", "RWF" : "RW", "SAR" : "SA", "SBD" : "SB", "SCR" : "SC", "SDG" : "SD", "SEK" : "SE", "SGD" : "SG", "SHP" : "SH", "SLL" : "SL", "SOS" : "SO", "SRD" : "SR", "STD" : "ST", "SVC" : "SV", "SYP" : "SY", "SZL" : "SZ", "THB" : "TH", "TJS" : "TJ", "TMT" : "TM", "TND" : "TN", "TOP" : "TO", "TRY" : "TR", "TTD" : "TT", "TWD" : "TW", "TZS" : "TZ", "UAH" : "UA", "UGX" : "UG", "USD" : "US", "UYU" : "UY", "UZS" : "UZ", "VEF" : "VE", "VND" : "VN", "VUV" : "VU", "WST" : "WS", "XAF" : "CF", "XCD" : "AG", "XDR" : "XDR", "XOF" : "BE", "XPF" : "PF", "YER" : "YE", "ZAR" : "ZA", "ZMK" : "ZM", "ZWD" : "ZW"
-};
+
+// CONFIG
+
+const API_KEY = "6a387c5620d8533bd4cf6d8c";
+const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}`;
+
+
+// SELECTORS
 
 const fromCurrency = document.querySelector("#selectSourceCurrency");
 const toCurrency = document.querySelector("#selectTargetCurrency");
@@ -11,68 +16,144 @@ const swapBtn = document.querySelector("#buttonSwap");
 const fromFlag = document.querySelector("#imageSourceCurrency");
 const toFlag = document.querySelector("#imageTargetCurrency");
 
-const API_KEY = "6a387c5620d8533bd4cf6d8c"; // replace with your key
-const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/`;
+// BASIC FLAG MAP (fallback)
 
-// Load exchange rate
-async function getExchangeRate() {
-    let amount = parseFloat(amountInput.value);
+const countryMap = {
+  USD: "US",
+  KES: "KE",
+  EUR: "EU",
+  GBP: "GB",
+  JPY: "JP",
+  INR: "IN",
+  AUD: "AU",
+  CAD: "CA",
+  CNY: "CN",
+  ZAR: "ZA"
+};
 
-    if (!amount || amount <= 0) {
-        amount = 1;
-        amountInput.value = "1";
-    }
 
-    const from = fromCurrency.value;
-    const to = toCurrency.value;
+// LOAD ALL CURRENCIES FROM API 🌍
 
-    resultText.innerText = "Fetching exchange rate...";
+async function loadCurrencies() {
+  try {
+    const res = await fetch(`${BASE_URL}/latest/USD`);
+    const data = await res.json();
 
-    try {
-        const response = await fetch(`${BASE_URL}${from}`);
-        const data = await response.json();
+    const currencies = Object.keys(data.conversion_rates);
 
-        if (data.result !== "success") {
-            throw new Error("API error");
-        }
+    fromCurrency.innerHTML = "";
+    toCurrency.innerHTML = "";
 
-        const rate = data.conversion_rates[to];
-        const converted = (amount * rate).toFixed(2);
+    currencies.forEach(currency => {
+      fromCurrency.add(new Option(currency, currency));
+      toCurrency.add(new Option(currency, currency));
 
-        resultText.innerText = `${amount} ${from} = ${converted} ${to}`;
-    } catch (error) {
-        console.error(error);
-        resultText.innerText = "Error fetching exchange rate.";
-    }
+    });
+
+    // Defaults
+    fromCurrency.value = localStorage.getItem("from") || "USD";
+    toCurrency.value = localStorage.getItem("to") || "KES";
+
+    updateFlag(fromCurrency, fromFlag);
+    updateFlag(toCurrency, toFlag);
+
+  } catch (err) {
+    console.error(err);
+    resultText.innerText = "❌ Failed to load currencies";
+  }
 }
 
 
-function loadCurrencyOptions() {
-  for (let currency in country_list) {
-    let option1 = document.createElement("option");
-    let option2 = document.createElement("option");
 
-    option1.value = currency;
-    option2.value = currency;
+// FLAG HANDLING (SMART)
 
-    option1.text = currency;
-    option2.text = currency;
+function updateFlag(selectEl, imgEl) {
+  const currency = selectEl.value;
 
-    fromCurrency.appendChild(option1);
-    toCurrency.appendChild(option2);
+  // Try map first
+  let countryCode = countryMap[currency];
+
+  // If not found → guess first 2 letters
+  if (!countryCode) {
+    countryCode = currency.slice(0, 2);
   }
 
-  // Default values
-  fromCurrency.value = "USD";
-  toCurrency.value = "KES";
+  imgEl.src = `https://flagsapi.com/${countryCode}/flat/64.png`;
 }
 
-function updateFlag(selectElement, imgElement) {
-  const currency = selectElement.value;
-  const countryCode = country_list[currency];
 
-  imgElement.src = `https://flagcdn.com/w40/${countryCode.toLowerCase()}.png`;
+// VALIDATION
+
+function validateAmount(value) {
+  if (isNaN(value) || value <= 0) {
+    resultText.innerText = "❌ Enter a valid amount";
+    return false;
+  }
+  return true;
 }
+
+
+// CONVERSION
+
+async function getExchangeRate() {
+  let amount = parseFloat(amountInput.value);
+
+  if (!validateAmount(amount)) return;
+
+  const from = fromCurrency.value;
+  const to = toCurrency.value;
+
+  convertBtn.disabled = true;
+  resultText.innerText = "⏳ Converting...";
+
+  try {
+    const res = await fetch(`${BASE_URL}/latest/${from}`);
+    const data = await res.json();
+
+    if (data.result !== "success") {
+      throw new Error("API failed");
+    }
+
+    const rate = data.conversion_rates[to];
+    const converted = (amount * rate).toFixed(2);
+
+    resultText.innerText = `${amount} ${from} = ${converted} ${to}`;
+
+    // Save preferences
+    localStorage.setItem("from", from);
+    localStorage.setItem("to", to);
+
+  } catch (err) {
+    console.error(err);
+    resultText.innerText = "❌ Error fetching exchange rate";
+  } finally {
+    convertBtn.disabled = false;
+  }
+}
+
+
+// SWAP
+
+function swapCurrencies() {
+  let temp = fromCurrency.value;
+  fromCurrency.value = toCurrency.value;
+  toCurrency.value = temp;
+
+  updateFlag(fromCurrency, fromFlag);
+  updateFlag(toCurrency, toFlag);
+
+  getExchangeRate();
+}
+
+
+// EVENTS
+
+convertBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  getExchangeRate();
+});
+
+swapBtn.addEventListener("click", swapCurrencies);
 
 fromCurrency.addEventListener("change", () => {
   updateFlag(fromCurrency, fromFlag);
@@ -84,36 +165,20 @@ toCurrency.addEventListener("change", () => {
   getExchangeRate();
 });
 
-window.addEventListener("load", () => {
-  loadCurrencyOptions();
-  updateFlag(fromCurrency, fromFlag);
-  updateFlag(toCurrency, toFlag);
+amountInput.addEventListener("input", () => {
+  if (amountInput.value !== "") {
+    getExchangeRate();
+  }
+});
+
+
+// INIT
+
+window.addEventListener("load", async () => {
+  await loadCurrencies();
   getExchangeRate();
 });
 
-
-
-
-// Swap currencies
-function swapCurrencies() {
-    const temp = fromCurrency.value;
-    fromCurrency.value = toCurrency.value;
-    toCurrency.value = temp;
-
-    getExchangeRate();
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
 }
-
-// Event listeners
-convertBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    getExchangeRate();
-});
-
-swapBtn.addEventListener("click", swapCurrencies);
-
-// Auto update when currency changes
-fromCurrency.addEventListener("change", getExchangeRate);
-toCurrency.addEventListener("change", getExchangeRate);
-
-// Load default rate on page load
-window.addEventListener("load", getExchangeRate);
