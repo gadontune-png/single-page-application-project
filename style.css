@@ -1,139 +1,141 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /*background-image: url(money1.jpeg);*/
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: rgb(34, 56, 1);
-    
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Main Container */
-.currency-converter {
-    background: goldenrod;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
+.container {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
 }
 
-.cu-title {
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-    color: white;
-    font-weight: 900;
-    background: #555;
-    border-radius: 8px;
+header {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-/* Input Section */
-.currency-input {
-    width: 100%;
-    padding: 12px;
-    font-size: 1.2rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    outline: none;
-    color: white;
-    text-align: center;
-    font-weight: 900;
-    background: #555;
-
+header h1 {
+  font-size: 28px;
 }
 
-.amount {
-    color: black;
-    font-weight: 900;
-
-    border-radius: 8px;
-
-
+.converter-card {
+  background: #111827;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* Flexbox Row for Selectors */
-.currency-converter-select-group {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 1.5rem;
+.input-group {
+  margin-bottom: 15px;
 }
 
-.currency-converter-select {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
+label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 5px;
+  
+  
 }
 
-.currency-converter-select img {
-    width: 40px;
-    border-radius: 4px;
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+input {
+  background: #1f2937;
+  color: white;
 }
 
 select {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    cursor: pointer;
+  background: #111827;
+  color: white;
+  border: 1px solid #374151;
 }
 
-/* Swap Button */
-.currency-converter-swap-button {
-    background: #007bff;
-    border: 1px solid #ddd;
-    padding: 8px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: black;
-    transition: 0.3s;
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #3b82f6;
+  color: white;
+  font-weight: bold;
+  transition: 0.2s;
 }
 
-.bx-bx-swap-horizontal {
-    color: black;
-    background: none;
+button:hover {
+  background: #2563eb;
 }
 
-.currency-converter-swap-button:hover {
-    background: #0056b3;
-    transform: scale(1.1);
+#swapBtn {
+  background: #10b981;
 }
 
-/* Exchange Rate Display */
-.currency-converter-exchange-rate {
-    margin-bottom: 1.5rem;
-    font-weight: bold;
-    color: black;
+#swapBtn:hover {
+  background: #059669;
 }
 
-/* Convert Button */
-.currency-converter-convert-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
+.result {
+  margin-top: 15px;
+  padding: 10px;
+  background: #0f172a;
+  border-radius: 8px;
+  text-align: center;
 }
 
-.currency-converter-convert-button:hover {
-    background-color: #0056b3;
+.error {
+  margin-top: 10px;
+  color: #f87171;
+  text-align: center;
+}
 
+/* LIGHT MODE */
+.light {
+  background: #f9fafb !important;
+  color: #111 !important;
+}
+
+.light .converter-card {
+  background: #ffffff !important;
+}
+
+.light input,
+.light select {
+  background: #e5e7eb !important;
+  color: #000 !important;
+}
+
+.light .result {
+  background: #e5e7eb !important;
+}
+
+.flag-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.flag-icon {
+  width: 30px;
+  height: 20px;
+  border-radius: 4px;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }

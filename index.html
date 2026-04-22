@@ -1,78 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#007BFF">
-    <title>Currency Converter</title>
-
-     <!-- External Icon Library & Stylesheets -->
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Currency Converter Pro</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="manifest" href="manifest.json">
 </head>
-
 <body>
 
-    <main class="currency-converter">
-        <h1 class="cu-title">Currency Converter</h1>
+  <div class="container">
+    <header>
+      <h1>Currency Converter</h1>
+      <p>Live exchange rates made simple</p>
+      <button id="themeToggle">🌙</button>
+    </header>
 
-        <!-- Input Section: Amount to Convert -->
+    <div class="converter-card">
 
+      <!-- Amount -->
+      <div class="input-group">
+        <label>Amount</label>
+        <input type="number" id="amount" placeholder="Enter amount" min="0"/>
+      </div>
+
+      <!-- From Currency -->
+      <div class="input-group">
+        <label>From</label>
+        <input type="text" id="fromSearch" placeholder="Search currency..."/>
         <div class="input-group">
-            <label class="amount">Amount</label>
-            <input class="currency-input" placeholder="0" type="number" id="inputSourceCurrency" min="0" step="any">
-        </div>
+  <label>From</label>
 
-         <!-- Selection Section: From and To Currencies -->
+  <div class="flag-row">
+    <img id="fromFlag" class="flag-icon" src="" alt="">
+  </div>
 
-        <div class="currency-converter-select-group">
-            <section class="currency-converter-select">
-                <label for="selectSourceCurrency" class="sr-only">From</label>
-                <img id="imageSourceCurrency" src="https://flagcdn.com/w40/us.png" alt="">
-                <select id="selectSourceCurrency">
-                    <option value="USD">USD</option>
-                    <option value="IDR">IDR</option>--/>
+  <input type="text" id="fromSearch" placeholder="Search currency..."/>
+  <select id="fromCurrency"></select>
+</div>
+        <select id="fromCurrency"></select>
+      </div>
 
-                </select>
-            </section>
+      <!-- Swap -->
+      <button id="swapBtn">⇅ Swap</button>
 
-             <!-- Swap Button -->
+      <!-- To Currency -->
+      <div class="input-group">
+        <label>To</label>
+        <input type="text" id="toSearch" placeholder="Search currency..."/>
+        <div class="input-group">
+  <label>To</label>
 
-            <button id="buttonSwap" class="currency-converter-swap-button" aria-label="Swap Currencies">
-                <i class="bx-bx-swap-horizontal"><-></i>
-            </button>
+  <div class="flag-row">
+    <img id="toFlag" class="flag-icon" src="" alt="">
+  </div>
 
-             <!-- Target Currency Selection -->
+  <input type="text" id="toSearch" placeholder="Search currency..."/>
+  <select id="toCurrency"></select>
+</div>
 
-            <section class="currency-converter-select">
-                <label for="selectTargetCurrency" class="sr-only">To</label>
-                <img id="imageTargetCurrency" src="https://flagcdn.com/w40.png" alt="Indonesia Flag">
-                <select id="selectTargetCurrency">
-                    <option value="IDR">IDR</option>
-                    <option value="USD">USD</option>
-                </select>
-            </section>
-        </div>
+        <select id="toCurrency"></select>
+      </div>
 
-        <!-- Exchange Rate Display -->
+      <!-- Convert -->
+      <button id="convertBtn">Convert</button>
 
-        <div class="currency-converter-exchange-rate">
-            <span id="exchangeRateText" class="currency-converter-exchange-rate-text">1 USD = 0 IDR</span>
-        </div>
+      <!-- Result -->
+      <div class="result" id="resultBox">
+        Enter values to convert
+      </div>
 
-         <!-- Action Button -->
+      <!-- Error -->
+      <div class="error" id="errorBox"></div>
 
-        <button id="buttonConvert" class="currency-converter-convert-button">Convert</button>
-    </main>
+    </div>
+  </div>
 
-     <!-- Logic Script -->
-
-    <script src="script.js" type="module"></script>
-
+  <script src="script.js"></script>
 </body>
-
 </html>
